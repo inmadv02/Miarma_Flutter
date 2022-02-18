@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:miarma_app_flutter/pages/home_page.dart';
+import 'package:miarma_app_flutter/pages/profile.dart';
+import 'package:miarma_app_flutter/pages/search_page.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({Key? key}) : super(key: key);
@@ -8,58 +11,106 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
-  ];
+  int _currentIndex = 0;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  List<Widget> pages = [
+    const HomePage(),
+    const SearchPage(),
+    const ProfilePage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('BottomNavigationBar Sample'),
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+        body: Container(
+            margin: MediaQuery.of(context).padding,
+            child: pages[_currentIndex]),
+        bottomNavigationBar: _buildBottomBar());
+  }
+
+  Widget _buildBottomBar() {
+    return Container(
+        decoration: const BoxDecoration(
+            border: Border(
+          top: BorderSide(
+            color: Color(0xfff1f1f1),
+            width: 1.0,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-      ),
-    );
+        )),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        height: 70,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(
+              child: Icon(Icons.home,
+                  color: _currentIndex == 0
+                      ? Colors.black
+                      : const Color(0xff999999)),
+              onTap: () {
+                setState(() {
+                  _currentIndex = 0;
+                });
+              },
+            ),
+            GestureDetector(
+              child: Icon(Icons.search,
+                  color: _currentIndex == 1
+                      ? Colors.black
+                      : const Color(0xff999999)),
+              onTap: () {
+                setState(() {
+                  _currentIndex = 1;
+                });
+              },
+            ),
+            GestureDetector(
+              child: Icon(Icons.slideshow,
+                  color: _currentIndex == 2
+                      ? Colors.black
+                      : const Color(0xff999999)),
+              onTap: () {
+                setState(() {
+                  _currentIndex = 2;
+                });
+              },
+            ),
+            GestureDetector(
+              child: Icon(Icons.local_mall_outlined,
+                  color: _currentIndex == 3
+                      ? Colors.black
+                      : const Color(0xff999999)),
+              onTap: () {
+                setState(() {
+                  _currentIndex = 3;
+                });
+              },
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _currentIndex = 4;
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    border: Border.all(
+                        color: _currentIndex == 4
+                            ? Colors.black
+                            : Colors.transparent,
+                        width: 1)),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: Image.asset(
+                    'assets/images/avatar.jpg',
+                    height: 30,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ));
   }
 }

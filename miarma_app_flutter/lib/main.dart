@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:miarma_app_flutter/pages/login_page.dart';
+import 'package:miarma_app_flutter/pages/menu_page.dart';
 import 'package:miarma_app_flutter/pages/signin_page.dart';
 
 void main() {
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
+        '/home-page': (context) => const MenuPage(),
         '/': (context) => const LoginPage(),
         '/sign-in': (context) => const SignInPage()
       },

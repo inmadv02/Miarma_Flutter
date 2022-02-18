@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:miarma_app_flutter/styles.dart';
-
 import 'package:flutter_social_button/flutter_social_button.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 
@@ -22,11 +21,13 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
         body: Form(
             key: _formKey,
-            child: Column(
+            child: SingleChildScrollView(
+                child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
+                  padding: const EdgeInsets.fromLTRB(16, 40, 16, 30),
                   child: Text('Instagram', style: Styles.textTitleCustom(40)),
                 ),
                 Padding(
@@ -57,6 +58,7 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.all(18.0),
                   child: TextFormField(
+                    obscureText: true,
                     decoration: InputDecoration(
                         labelText: 'Password',
                         filled: true,
@@ -85,7 +87,8 @@ class _LoginPageState extends State<LoginPage> {
                       style: ElevatedButton.styleFrom(
                           fixedSize: Size(width, height),
                           primary: Styles.azulMenu),
-                      onPressed: () {},
+                      onPressed: (() =>
+                          Navigator.pushNamed(context, '/home-page')),
                       child: const Text('Iniciar sesión',
                           style: TextStyle(fontSize: 17))),
                 ),
@@ -149,6 +152,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 )
               ],
-            )));
+            ))));
   }
 }
