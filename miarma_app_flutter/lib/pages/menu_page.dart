@@ -65,31 +65,9 @@ class _MenuPageState extends State<MenuPage> {
               },
             ),
             GestureDetector(
-              child: Icon(Icons.slideshow,
-                  color: _currentIndex == 2
-                      ? Colors.black
-                      : const Color(0xff999999)),
               onTap: () {
                 setState(() {
                   _currentIndex = 2;
-                });
-              },
-            ),
-            GestureDetector(
-              child: Icon(Icons.local_mall_outlined,
-                  color: _currentIndex == 3
-                      ? Colors.black
-                      : const Color(0xff999999)),
-              onTap: () {
-                setState(() {
-                  _currentIndex = 3;
-                });
-              },
-            ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  _currentIndex = 4;
                 });
               },
               child: Container(
@@ -97,7 +75,7 @@ class _MenuPageState extends State<MenuPage> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100),
                     border: Border.all(
-                        color: _currentIndex == 4
+                        color: _currentIndex == 2
                             ? Colors.black
                             : Colors.transparent,
                         width: 1)),

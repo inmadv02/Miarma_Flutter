@@ -7,7 +7,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(top: 10),
       child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
         Padding(
           padding: const EdgeInsets.all(12.0),
@@ -23,18 +23,18 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             flex: 2,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
+              children: [
                 Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.add_box_outlined),
+                  padding: const EdgeInsets.all(8.0),
+                  child: SvgPicture.asset('assets/icons/add.svg'),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Icon(Icons.favorite_border),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.send),
+                  padding: EdgeInsets.all(11.0),
+                  child: SvgPicture.asset('assets/icons/share.svg'),
                 )
               ],
             ))
@@ -43,5 +43,5 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(100);
+  Size get preferredSize => const Size.fromHeight(50);
 }

@@ -28,7 +28,8 @@ class _SignInPageState extends State<SignInPage> {
                   SizedBox(height: MediaQuery.of(context).size.width * 0.2),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Text('Instagram', style: Styles.textTitleCustom(40)),
+                    child:
+                        Text('Miarmagram', style: Styles.textTitleCustom(40)),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

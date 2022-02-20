@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 40, 16, 30),
-                  child: Text('Instagram', style: Styles.textTitleCustom(40)),
+                  child: Text('Miarmagram', style: Styles.textTitleCustom(40)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(18.0),
