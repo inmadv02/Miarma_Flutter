@@ -24,7 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Row(
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 12),
+                    margin: const EdgeInsets.fromLTRB(10, 12, 8, 4),
                     width: 95.0,
                     height: 95.0,
                     decoration: const BoxDecoration(
@@ -52,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsets.all(9.0),
+                                padding: EdgeInsets.all(7.0),
                                 child: SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.2,
@@ -65,9 +65,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           Column(
                             children: [
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text(
+                              const Padding(
+                                padding: EdgeInsets.only(top: 19),
+                                child: Text(
                                   "483",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
@@ -75,26 +75,40 @@ class _ProfilePageState extends State<ProfilePage> {
                                       fontSize: 18),
                                 ),
                               ),
-                              const Text(
-                                "Seguidores",
+                              Padding(
+                                padding: EdgeInsets.all(7.0),
+                                child: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.2,
+                                  child: const Text("Seguidores",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 15)),
+                                ),
                               ),
                             ],
                           ),
                           Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              TextButton(
-                                  onPressed: () {
-                                    /*Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const FollowPage()));*/
-                                  },
-                                  child: const Text("324",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black))),
-                              const Text("Siguiendo"),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 19),
+                                child: Text(
+                                  "324",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                      fontSize: 18),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(7.0),
+                                child: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.2,
+                                  child: const Text("Siguiendo",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 15)),
+                                ),
+                              ),
                             ],
                           ),
                         ],
@@ -120,7 +134,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: EdgeInsets.fromLTRB(10, 3, 1, 8),
                     child: Text(
                       "Developer",
-                      style: TextStyle(color: Colors.grey),
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 110, 110, 110)),
                     ),
                   )
                 ],
@@ -142,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     style: OutlinedButton.styleFrom(
                       fixedSize: Size(width, height),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Editar perfil',
                       style: TextStyle(color: Colors.black),
                     )),
@@ -166,31 +181,31 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
+                children: const [
+                  SizedBox(
                       width: 90,
                       height: 150,
-                      child: const Image(
+                      child: Image(
                         image: AssetImage("assets/images/post1.jpg"),
                         fit: BoxFit.contain,
                       )),
-                  const SizedBox(
+                  SizedBox(
                     width: 20,
                   ),
-                  Container(
+                  SizedBox(
                       width: 100,
                       height: 150,
-                      child: const Image(
+                      child: Image(
                         image: AssetImage("assets/images/post1.jpg"),
                         fit: BoxFit.contain,
                       )),
-                  const SizedBox(
+                  SizedBox(
                     width: 20,
                   ),
-                  Container(
+                  SizedBox(
                       width: 120,
                       height: 150,
-                      child: const Image(
+                      child: Image(
                         image: AssetImage("assets/images/post1.jpg"),
                         fit: BoxFit.contain,
                       ))
