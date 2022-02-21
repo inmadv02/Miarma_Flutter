@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:miarma_app_flutter/models/get-post-dto.dart';
+import 'package:miarma_app_flutter/src/models/get-post-dto.dart';
 
 import '../widgets/home_app_bar.dart';
 
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
       urlFoto2: 'assets/images/post1.jpg',
       visibilidad: "Público",
       nickname: "inma_dv",
-      fotoPerfil: 'assets/images/avatar.jpg',
+      fotoPerfil: 'assets/images/avatar.png',
       likes: 100);
 
   GetPostDTO post2 = GetPostDTO(
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
       urlFoto2: 'assets/images/post1.jpg',
       visibilidad: "Público",
       nickname: "inma_dv",
-      fotoPerfil: 'assets/images/avatar.jpg',
+      fotoPerfil: 'assets/images/avatar.png',
       likes: 100);
 
   GetPostDTO post3 = GetPostDTO(
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
       urlFoto2: 'assets/images/post1.jpg',
       visibilidad: "Público",
       nickname: "inma_dv",
-      fotoPerfil: 'assets/images/avatar.jpg',
+      fotoPerfil: 'assets/images/avatar.png',
       likes: 100);
 
   late List<GetPostDTO> listaPostDTO;
@@ -75,8 +75,8 @@ class _HomePageState extends State<HomePage> {
           children: [
             Container(
                 decoration: BoxDecoration(
-                    border:
-                        Border.all(color: Color.fromARGB(255, 170, 170, 170))),
+                    border: Border.all(
+                        color: const Color.fromARGB(255, 170, 170, 170))),
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.07,
                 child: Row(
@@ -98,15 +98,16 @@ class _HomePageState extends State<HomePage> {
                         Padding(
                             padding: const EdgeInsets.all(6.0),
                             child: Text(postDTO.nickname,
-                                style: TextStyle(fontWeight: FontWeight.w700)))
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w700)))
                       ],
                     ),
-                    Padding(
+                    const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Icon(Icons.more_vert)),
                   ],
                 )),
-            Container(
+            SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: Image.asset(postDTO.urlFoto, fit: BoxFit.cover)),
             Container(
@@ -139,19 +140,19 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(postDTO.likes.toString() + ' likes',
-                  style: TextStyle(fontWeight: FontWeight.w800)),
+                  style: const TextStyle(fontWeight: FontWeight.w800)),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(8, 2, 8, 20),
               child: RichText(
                   text: TextSpan(
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w700),
                       text: postDTO.nickname,
                       children: <TextSpan>[
                     TextSpan(
                         text: ' ' + postDTO.texto,
-                        style: TextStyle(fontWeight: FontWeight.normal))
+                        style: const TextStyle(fontWeight: FontWeight.normal))
                   ])),
             )
           ],

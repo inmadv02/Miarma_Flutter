@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:miarma_app_flutter/pages/home_page.dart';
-import 'package:miarma_app_flutter/pages/profile.dart';
+import 'package:miarma_app_flutter/pages/profile_page.dart';
 import 'package:miarma_app_flutter/pages/search_page.dart';
 
 class MenuPage extends StatefulWidget {
@@ -82,7 +82,7 @@ class _MenuPageState extends State<MenuPage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: Image.asset(
-                    'assets/images/avatar.jpg',
+                    'assets/images/avatar.png',
                     height: 30,
                   ),
                 ),
