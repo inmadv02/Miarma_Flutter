@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:miarma_app_flutter/src/models/get-post-dto.dart';
 
-import '../widgets/home_app_bar.dart';
+import '../../../widgets/home_app_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

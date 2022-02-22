@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:miarma_app_flutter/pages/home_page.dart';
-import 'package:miarma_app_flutter/pages/profile_page.dart';
-import 'package:miarma_app_flutter/pages/search_page.dart';
+import 'package:miarma_app_flutter/src/ui/pages/home_page.dart';
+import 'package:miarma_app_flutter/src/ui/pages/profile_page.dart';
+import 'package:miarma_app_flutter/src/ui/pages/search_page.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({Key? key}) : super(key: key);

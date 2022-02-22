@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:miarma_app_flutter/pages/login_page.dart';
-import 'package:miarma_app_flutter/pages/menu_page.dart';
-import 'package:miarma_app_flutter/pages/signin_page.dart';
+import 'src/ui/pages/login_page.dart';
+import 'src/ui/pages/menu_page.dart';
+import 'src/ui/pages/signin_page.dart';
 
 void main() {
   runApp(const MyApp());
