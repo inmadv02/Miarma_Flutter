@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
       id: 1,
       titulo: "inma_dv",
       texto: "Post chulísimo",
-      urlFoto: 'assets/images/post1.jpg',
+      urlFoto1: 'assets/images/post1.jpg',
       urlFoto2: 'assets/images/post1.jpg',
       visibilidad: "Público",
       nickname: "inma_dv",
@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
       id: 2,
       titulo: "inma_dv",
       texto: "Post chulísimo 2",
-      urlFoto: 'assets/images/post1.jpg',
+      urlFoto1: 'assets/images/post1.jpg',
       urlFoto2: 'assets/images/post1.jpg',
       visibilidad: "Público",
       nickname: "inma_dv",
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       id: 3,
       titulo: "inma_dv",
       texto: "Post chulísimo",
-      urlFoto: 'assets/images/post1.jpg',
+      urlFoto1: 'assets/images/post1.jpg',
       urlFoto2: 'assets/images/post1.jpg',
       visibilidad: "Público",
       nickname: "inma_dv",
@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                 )),
             SizedBox(
                 width: MediaQuery.of(context).size.width,
-                child: Image.asset(postDTO.urlFoto, fit: BoxFit.cover)),
+                child: Image.asset(postDTO.urlFoto1, fit: BoxFit.cover)),
             Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
