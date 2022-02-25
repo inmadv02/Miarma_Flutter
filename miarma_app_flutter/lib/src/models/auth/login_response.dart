@@ -6,7 +6,7 @@ class LoginResponse {
     required this.foto,
   });
   late final String token;
-  late final String fullname;
+  late final String? fullname;
   late final String email;
   late final String foto;
 

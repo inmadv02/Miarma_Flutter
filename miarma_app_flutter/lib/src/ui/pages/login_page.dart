@@ -63,13 +63,13 @@ class _LoginPageState extends State<LoginPage> {
           }
         }, buildWhen: (context, state) {
           return state is LoginInitialState || state is LoginLoadingState;
-        }, builder: (contexto, state) {
+        }, builder: (ctx, state) {
           if (state is LoginInitialState) {
-            return _loginBody(contexto);
+            return _loginBody(ctx);
           } else if (state is LoginLoadingState) {
             return const Center(child: CircularProgressIndicator());
           } else {
-            return _loginBody(contexto);
+            return _loginBody(ctx);
           }
         })),
       ),
@@ -150,26 +150,24 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                 ),
-                GestureDetector(
-                    onTap: () {
-                      if (_formKey.currentState!.validate()) {
-                        final loginDto = LoginDto(
-                            nickname: nicknameController.text,
-                            password: passwordController.text);
-                        BlocProvider.of<LoginBloc>(context)
-                            .add(DoLoginEvent(loginDto));
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              fixedSize: Size(width, height),
-                              primary: Styles.azulMenu),
-                          onPressed: () {},
-                          child: const Text('Iniciar sesión',
-                              style: TextStyle(fontSize: 17))),
-                    )),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          fixedSize: Size(width, height),
+                          primary: Styles.azulMenu),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          final loginDto = LoginDto(
+                              nickname: nicknameController.text,
+                              password: passwordController.text);
+                          BlocProvider.of<LoginBloc>(context)
+                              .add(DoLoginEvent(loginDto));
+                        }
+                      },
+                      child: const Text('Iniciar sesión',
+                          style: TextStyle(fontSize: 17))),
+                ),
                 const Padding(
                   padding: EdgeInsets.all(6.0),
                   child: Text('¿Has olvidado tu contraseña?',
