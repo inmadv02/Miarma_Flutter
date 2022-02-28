@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:miarma_app_flutter/src/bloc/posts/post_bloc.dart';
 import 'package:miarma_app_flutter/src/models/get-post-dto.dart';
+import 'package:miarma_app_flutter/src/repository/constants.dart';
+import 'package:miarma_app_flutter/src/repository/posts_repository/post_repository.dart';
+import 'package:miarma_app_flutter/src/repository/posts_repository/posts_repository_impl.dart';
 
+import '../../../widgets/error_page.dart';
 import '../../../widgets/home_app_bar.dart';
+import '../../../widgets/shimmer_horizontal_list.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,6 +19,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late PostRepository postRepository;
+  late PostBloc following_posts;
+
   GetPostDTO post = GetPostDTO(
       id: 1,
       titulo: "inma_dv",
@@ -49,25 +59,120 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    postRepository = PostRepositoryImpl();
+    following_posts = PostBloc(postRepository)
+      ..add(FetchPostsWithType(Constants.public));
     listaPostDTO = [post, post2, post3];
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(appBar: const HomeAppBar(), body: _postList());
+  void dispose() {
+    super.dispose();
   }
 
-  Widget _postList() {
-    return ListView.builder(
-      itemCount: listaPostDTO.length,
-      itemBuilder: (context, index) {
-        return _postItem(listaPostDTO.elementAt(index));
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) {
+        return PostBloc(postRepository)
+          ..add(FetchPostsWithType(Constants.public));
+      },
+      child: Scaffold(body: _publicPosts(context)),
+    );
+  }
+
+  Widget _publicPosts(BuildContext context) {
+    return BlocBuilder<PostBloc, PostState>(
+      builder: (context, state) {
+        if (state is PostInitial) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is PublicPostsFetchError) {
+          return ErrorPage(
+            message: state.message,
+            retry: () {
+              context
+                  .watch<PostBloc>()
+                  .add(FetchPostsWithType(Constants.public));
+            },
+          );
+        } else if (state is PublicPostsFetched) {
+          return _postsView(context, state.posts);
+        } else {
+          return const Text('Not support');
+        }
       },
     );
   }
 
-  Widget _postItem(GetPostDTO postDTO) {
+  Widget _postsView(BuildContext context, List<GetPostDTO> posts) {
+    return Column(children: [
+      BlocBuilder<PostBloc, PostState>(
+        bloc: following_posts,
+        builder: (context, state) {
+          if (state is PostInitial) {
+            return const ShimmerHorizontalList();
+          } else if (state is PublicPostsFetchError) {
+            return ErrorPage(
+              message: state.message,
+              retry: () {
+                context
+                    .watch<PostBloc>()
+                    .add(FetchPostsWithType(Constants.public));
+              },
+            );
+          } else if (state is PublicPostsFetched) {
+            return _postsLists(context, state.posts);
+          } else {
+            return const Text('Not supported');
+          }
+        },
+      ),
+      BlocBuilder<PostBloc, PostState>(
+        bloc: following_posts,
+        builder: (context, state) {
+          if (state is PostInitial) {
+            return const ShimmerHorizontalList();
+          } else if (state is PublicPostsFetchError) {
+            return ErrorPage(
+              message: state.message,
+              retry: () {
+                context
+                    .watch<PostBloc>()
+                    .add(FetchPostsWithType(Constants.public));
+              },
+            );
+          } else if (state is PublicPostsFetched) {
+            return _postsLists(context, state.posts);
+          } else {
+            return const Text('Not supported');
+          }
+        },
+      ),
+    ]);
+  }
+
+  Widget _postsLists(BuildContext context, List<GetPostDTO> posts) {
+    final contentHeight = MediaQuery.of(context).size.height / 3;
+
+    return SizedBox(
+      height: contentHeight,
+      child: ListView.separated(
+        itemBuilder: (BuildContext context, int index) {
+          return _postItem(context, posts[index]);
+        },
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+        scrollDirection: Axis.horizontal,
+        separatorBuilder: (context, index) => const VerticalDivider(
+          color: Colors.transparent,
+          width: 6.0,
+        ),
+        itemCount: posts.length,
+      ),
+    );
+  }
+
+  Widget _postItem(BuildContext ctx, GetPostDTO postDTO) {
     return SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
