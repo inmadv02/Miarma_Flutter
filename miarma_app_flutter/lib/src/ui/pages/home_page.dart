@@ -22,47 +22,11 @@ class _HomePageState extends State<HomePage> {
   late PostRepository postRepository;
   late PostBloc following_posts;
 
-  GetPostDTO post = GetPostDTO(
-      id: 1,
-      titulo: "inma_dv",
-      texto: "Post chulísimo",
-      urlFoto1: 'assets/images/post1.jpg',
-      urlFoto2: 'assets/images/post1.jpg',
-      visibilidad: "Público",
-      nickname: "inma_dv",
-      fotoPerfil: 'assets/images/avatar.png',
-      likes: 100);
-
-  GetPostDTO post2 = GetPostDTO(
-      id: 2,
-      titulo: "inma_dv",
-      texto: "Post chulísimo 2",
-      urlFoto1: 'assets/images/post1.jpg',
-      urlFoto2: 'assets/images/post1.jpg',
-      visibilidad: "Público",
-      nickname: "inma_dv",
-      fotoPerfil: 'assets/images/avatar.png',
-      likes: 100);
-
-  GetPostDTO post3 = GetPostDTO(
-      id: 3,
-      titulo: "inma_dv",
-      texto: "Post chulísimo",
-      urlFoto1: 'assets/images/post1.jpg',
-      urlFoto2: 'assets/images/post1.jpg',
-      visibilidad: "Público",
-      nickname: "inma_dv",
-      fotoPerfil: 'assets/images/avatar.png',
-      likes: 100);
-
-  late List<GetPostDTO> listaPostDTO;
-
   @override
   void initState() {
     postRepository = PostRepositoryImpl();
     following_posts = PostBloc(postRepository)
       ..add(FetchPostsWithType(Constants.public));
-    listaPostDTO = [post, post2, post3];
     super.initState();
   }
 
@@ -78,7 +42,7 @@ class _HomePageState extends State<HomePage> {
         return PostBloc(postRepository)
           ..add(FetchPostsWithType(Constants.public));
       },
-      child: Scaffold(body: _publicPosts(context)),
+      child: Scaffold(appBar: HomeAppBar(), body: _publicPosts(context)),
     );
   }
 
@@ -106,54 +70,31 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _postsView(BuildContext context, List<GetPostDTO> posts) {
-    return Column(children: [
-      BlocBuilder<PostBloc, PostState>(
-        bloc: following_posts,
-        builder: (context, state) {
-          if (state is PostInitial) {
-            return const ShimmerHorizontalList();
-          } else if (state is PublicPostsFetchError) {
-            return ErrorPage(
-              message: state.message,
-              retry: () {
-                context
-                    .watch<PostBloc>()
-                    .add(FetchPostsWithType(Constants.public));
-              },
-            );
-          } else if (state is PublicPostsFetched) {
-            return _postsLists(context, state.posts);
-          } else {
-            return const Text('Not supported');
-          }
-        },
-      ),
-      BlocBuilder<PostBloc, PostState>(
-        bloc: following_posts,
-        builder: (context, state) {
-          if (state is PostInitial) {
-            return const ShimmerHorizontalList();
-          } else if (state is PublicPostsFetchError) {
-            return ErrorPage(
-              message: state.message,
-              retry: () {
-                context
-                    .watch<PostBloc>()
-                    .add(FetchPostsWithType(Constants.public));
-              },
-            );
-          } else if (state is PublicPostsFetched) {
-            return _postsLists(context, state.posts);
-          } else {
-            return const Text('Not supported');
-          }
-        },
-      ),
-    ]);
+    return BlocBuilder<PostBloc, PostState>(
+      bloc: following_posts,
+      builder: (context, state) {
+        if (state is PostInitial) {
+          return const ShimmerHorizontalList();
+        } else if (state is PublicPostsFetchError) {
+          return ErrorPage(
+            message: state.message,
+            retry: () {
+              context
+                  .watch<PostBloc>()
+                  .add(FetchPostsWithType(Constants.public));
+            },
+          );
+        } else if (state is PublicPostsFetched) {
+          return _postsLists(context, state.posts);
+        } else {
+          return const Text('Not supported');
+        }
+      },
+    );
   }
 
   Widget _postsLists(BuildContext context, List<GetPostDTO> posts) {
-    final contentHeight = MediaQuery.of(context).size.height / 3;
+    final contentHeight = MediaQuery.of(context).size.height;
 
     return SizedBox(
       height: contentHeight,
@@ -161,8 +102,7 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (BuildContext context, int index) {
           return _postItem(context, posts[index]);
         },
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-        scrollDirection: Axis.horizontal,
+        scrollDirection: Axis.vertical,
         separatorBuilder: (context, index) => const VerticalDivider(
           color: Colors.transparent,
           width: 6.0,
@@ -180,8 +120,8 @@ class _HomePageState extends State<HomePage> {
           children: [
             Container(
                 decoration: BoxDecoration(
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 170, 170, 170))),
+                    border:
+                        Border.all(color: Color.fromARGB(64, 200, 200, 200))),
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.07,
                 child: Row(
@@ -197,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
                                       fit: BoxFit.fill,
-                                      image: AssetImage(
+                                      image: NetworkImage(
                                           postDTO.fotoPerfil.toString())))),
                         ),
                         Padding(
@@ -214,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                 )),
             SizedBox(
                 width: MediaQuery.of(context).size.width,
-                child: Image.asset(postDTO.urlFoto1, fit: BoxFit.cover)),
+                child: Image.network(postDTO.urlFoto1, fit: BoxFit.cover)),
             Container(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

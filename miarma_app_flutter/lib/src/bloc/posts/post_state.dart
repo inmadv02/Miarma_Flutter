@@ -3,13 +3,12 @@ part of 'post_bloc.dart';
 @immutable
 abstract class PostState extends Equatable {
   const PostState();
+
+  @override
+  List<Object> get props => [];
 }
 
-class PostInitial extends PostState {
-  @override
-  // TODO: implement props
-  List<Object?> get props => [];
-}
+class PostInitial extends PostState {}
 
 class PublicPostsFetched extends PostState {
   final List<GetPostDTO> posts;

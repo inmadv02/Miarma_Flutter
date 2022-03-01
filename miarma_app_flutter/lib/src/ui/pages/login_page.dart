@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 
 import '../../models/auth/loginDTO.dart';
+import 'menu_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -56,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                 Constants.token, state.loginResponse.token);
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
+              MaterialPageRoute(builder: (context) => const MenuPage()),
             );
           } else if (state is LoginErrorState) {
             _errorMessage(context, state.message);

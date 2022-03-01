@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
@@ -11,11 +13,10 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   final PostRepository postRepository;
 
   PostBloc(this.postRepository) : super(PostInitial()) {
-    on<PostEvent>((event, emit) {});
+    on<FetchPostsWithType>(_postsFetched);
   }
 
-  Future<void> _postsFetched(
-      FetchPostsWithType event, Emitter<PostState> emit) async {
+  void _postsFetched(FetchPostsWithType event, Emitter<PostState> emit) async {
     try {
       final posts = await postRepository.fetchPublicPosts(event.type);
       emit(PublicPostsFetched(posts, event.type));
