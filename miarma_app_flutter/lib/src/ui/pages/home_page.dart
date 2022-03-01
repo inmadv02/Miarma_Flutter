@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:miarma_app_flutter/src/bloc/posts/post_bloc.dart';
+
 import 'package:miarma_app_flutter/src/models/get-post-dto.dart';
+import 'package:miarma_app_flutter/src/posts/post_bloc.dart';
 import 'package:miarma_app_flutter/src/repository/constants.dart';
 import 'package:miarma_app_flutter/src/repository/posts_repository/post_repository.dart';
 import 'package:miarma_app_flutter/src/repository/posts_repository/posts_repository_impl.dart';
