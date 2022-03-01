@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:miarma_app_flutter/src/bloc/login/bloc/login_bloc.dart';
+
 import 'package:miarma_app_flutter/src/repository/auth_repository/auth_repository.dart';
 import 'package:miarma_app_flutter/src/repository/auth_repository/auth_repository_impl.dart';
 import 'package:miarma_app_flutter/src/repository/constants.dart';
@@ -11,6 +11,7 @@ import 'package:miarma_app_flutter/utils/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 
+import '../../login/bloc/login_bloc.dart';
 import '../../models/auth/loginDTO.dart';
 import 'menu_page.dart';
 
