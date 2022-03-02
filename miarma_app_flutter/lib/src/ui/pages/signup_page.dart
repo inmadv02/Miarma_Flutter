@@ -27,10 +27,13 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController nicknameController = TextEditingController();
   TextEditingController password2Controller = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
+  late String birthDate;
   TextEditingController photoController = TextEditingController();
   TextEditingController visibilityController = TextEditingController();
   late RegisterRepository registerRepository;
+  List<String> visibilidad = ['Público', 'Privado'];
+  String dropdownvalue = 'Público';
+  String filePath = ' ';
 
   @override
   void initState() {
@@ -153,6 +156,7 @@ class _SignInPageState extends State<SignInPage> {
                     },
                     builder: (context, state) {
                       if (state is ImageSelectedSuccessState) {
+                        filePath = state.pickedFile.path;
                         return Column(
                           children: [
                             const Padding(
@@ -190,6 +194,7 @@ class _SignInPageState extends State<SignInPage> {
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: TextFormField(
+                      controller: emailController,
                       decoration: InputDecoration(
                           labelText: 'Número de teléfono o email',
                           filled: true,
@@ -215,6 +220,7 @@ class _SignInPageState extends State<SignInPage> {
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: TextFormField(
+                      controller: nameController,
                       decoration: InputDecoration(
                           labelText: 'Nombre completo',
                           filled: true,
@@ -240,6 +246,7 @@ class _SignInPageState extends State<SignInPage> {
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: TextFormField(
+                      controller: nicknameController,
                       decoration: InputDecoration(
                           labelText: 'Nombre usuario',
                           filled: true,
@@ -265,6 +272,7 @@ class _SignInPageState extends State<SignInPage> {
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: TextFormField(
+                      controller: passwordController,
                       decoration: InputDecoration(
                           labelText: 'Contraseña',
                           filled: true,
@@ -290,6 +298,7 @@ class _SignInPageState extends State<SignInPage> {
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: TextFormField(
+                      controller: password2Controller,
                       decoration: InputDecoration(
                           labelText: 'Confirmar contraseña',
                           filled: true,
@@ -313,15 +322,46 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                   ),
                   Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 11),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.grey[400]!),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(4.0)),
+                      ),
+                      child: DropdownButton(
+                        isExpanded: true,
+                        value: dropdownvalue,
+                        underline: Container(color: Colors.grey[200]),
+                        dropdownColor: Colors.grey[200],
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownvalue = newValue!;
+                          });
+                        },
+                        items: visibilidad
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        style: TextStyle(color: Colors.grey[700], fontSize: 16),
+                      ),
+                    ),
+                  ),
+                  Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: InputDatePickerFormField(
                         firstDate: DateTime(DateTime.now().year - 120),
                         lastDate: DateTime.now(),
                         onDateSubmitted: (date) {
                           setState(() {
-                            var inputFormat = DateFormat('dd/MM/yyyy');
-                            var inputDate = inputFormat.parse(date.toString());
-                            dateController.text = inputDate.toString();
+                            var inputDate = DateFormat('yMd').format(date);
+                            birthDate = inputDate;
                           });
                         },
                         fieldLabelText: 'Fecha de nacimiento',
@@ -334,19 +374,20 @@ class _SignInPageState extends State<SignInPage> {
                             fixedSize: Size(width, height),
                             primary: Styles.azulMenu),
                         onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          final registerDTO = RegisterDTO(
-                              nickname: nicknameController.text,
-                              fullname: nameController.text,
-                              avatar: photoController.text,
-                              email: emailController.text,
-                              visibilidad: visibilityController.text,
-                              fechaNacimiento: dateController.text,
-                              password: passwordController.text);
-                          BlocProvider.of<RegisterBloc>(context)
-                              .add(DoRegisterEvent(registerDTO);
-                        }
-                      },
+                          if (_formKey.currentState!.validate()) {
+                            final registerDTO = RegisterDTO(
+                                nickname: nicknameController.text,
+                                fullname: nameController.text,
+                                avatar: filePath,
+                                email: emailController.text,
+                                visibilidad: dropdownvalue,
+                                fechaNacimiento: birthDate,
+                                password: passwordController.text,
+                                password2: password2Controller.text);
+                            BlocProvider.of<RegisterBloc>(context)
+                                .add(DoRegisterEvent(registerDTO, filePath));
+                          }
+                        },
                         child: const Text('Registrarse',
                             style: TextStyle(fontSize: 17))),
                   ),

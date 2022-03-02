@@ -22,7 +22,8 @@ class RegisterRepositoryImpl extends RegisterRepository {
       'email': registerDTO.email,
       'password': registerDTO.password,
       'password2': registerDTO.password2,
-      'visibilidad': registerDTO.visibilidad
+      'visibilidad': registerDTO.visibilidad,
+      'fechaNacimiento': registerDTO.fechaNacimiento
     };
 
     var request = http.MultipartRequest(
