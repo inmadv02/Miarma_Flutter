@@ -11,7 +11,7 @@ import 'package:miarma_app_flutter/utils/shared_preferences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
 
-import '../../login/bloc/login_bloc.dart';
+import '../../blocs/login/bloc/login_bloc.dart';
 import '../../models/auth/loginDTO.dart';
 import 'menu_page.dart';
 

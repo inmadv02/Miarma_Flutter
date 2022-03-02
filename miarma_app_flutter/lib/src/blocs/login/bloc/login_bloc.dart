@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:miarma_app_flutter/src/models/auth/loginDTO.dart';
 import 'package:miarma_app_flutter/src/models/auth/login_response.dart';
 
-import '../../repository/auth_repository/auth_repository.dart';
+import '../../../repository/auth_repository/auth_repository.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';

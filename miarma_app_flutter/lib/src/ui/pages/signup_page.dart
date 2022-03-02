@@ -1,6 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:miarma_app_flutter/src/models/register/registerDTO.dart';
+import 'package:miarma_app_flutter/src/repository/register_repository/register_repository.dart';
+import 'package:miarma_app_flutter/src/repository/register_repository/register_repository_impl.dart';
+import 'package:miarma_app_flutter/src/ui/pages/login_page.dart';
 import 'package:miarma_app_flutter/styles.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
+import 'package:intl/intl.dart';
+import '../../blocs/image/bloc/image_bloc.dart';
+import '../../blocs/register/bloc/register_bloc.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -11,9 +22,69 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController nicknameController = TextEditingController();
+  TextEditingController password2Controller = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController photoController = TextEditingController();
+  TextEditingController visibilityController = TextEditingController();
+  late RegisterRepository registerRepository;
+
+  @override
+  void initState() {
+    registerRepository = RegisterRepositoryImpl();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    return MultiBlocProvider(providers: [
+      BlocProvider(create: (context) => RegisterBloc(registerRepository)),
+      BlocProvider(create: (context) => ImageBloc())
+    ], child: Scaffold(body: _body(context)));
+  }
+
+  _body(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Container(
+            child: BlocConsumer<RegisterBloc, RegisterState>(
+                listenWhen: (context, state) {
+          return state is RegisterSuccessState || state is RegisterErrorState;
+        }, listener: (context, state) {
+          if (state is RegisterSuccessState) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+            );
+          } else if (state is RegisterErrorState) {
+            _errorMessage(context, state.message);
+          }
+        }, buildWhen: (context, state) {
+          return state is RegisterInitial || state is RegisterLoadingState;
+        }, builder: (ctx, state) {
+          if (state is RegisterInitial) {
+            return _registerBody(ctx);
+          } else if (state is RegisterLoadingState) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return _registerBody(ctx);
+          }
+        })),
+      ),
+    );
+  }
+
+  void _errorMessage(BuildContext context, String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  Widget _registerBody(BuildContext context) {
     double width = MediaQuery.of(context).size.width * 0.9;
     double height = MediaQuery.of(context).size.height * 0.07;
 
@@ -71,8 +142,53 @@ class _SignInPageState extends State<SignInPage> {
                       endIndent: 20,
                     )),
                   ]),
+                  BlocConsumer<ImageBloc, ImageState>(
+                    listenWhen: (context, state) {
+                      return state is ImageSelectedSuccessState;
+                    },
+                    listener: (context, state) {},
+                    buildWhen: (context, state) {
+                      return state is ImageInitial ||
+                          state is ImageSelectedSuccessState;
+                    },
+                    builder: (context, state) {
+                      if (state is ImageSelectedSuccessState) {
+                        return Column(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.fromLTRB(15, 30, 15, 15),
+                              child: Text(
+                                'Foto de perfil',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 18),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.1,
+                                  child: Image.file(
+                                    File(state.pickedFile.path),
+                                    fit: BoxFit.fill,
+                                  )),
+                            ),
+                          ],
+                        );
+                      }
+                      return Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 30, 15, 30),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                BlocProvider.of<ImageBloc>(context).add(
+                                    const SelectImageEvent(
+                                        ImageSource.gallery));
+                              },
+                              child: const Text('Elegir imagen')));
+                    },
+                  ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 30, 15, 15),
+                    padding: const EdgeInsets.all(15.0),
                     child: TextFormField(
                       decoration: InputDecoration(
                           labelText: 'Número de teléfono o email',
@@ -197,12 +313,40 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                   ),
                   Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: InputDatePickerFormField(
+                        firstDate: DateTime(DateTime.now().year - 120),
+                        lastDate: DateTime.now(),
+                        onDateSubmitted: (date) {
+                          setState(() {
+                            var inputFormat = DateFormat('dd/MM/yyyy');
+                            var inputDate = inputFormat.parse(date.toString());
+                            dateController.text = inputDate.toString();
+                          });
+                        },
+                        fieldLabelText: 'Fecha de nacimiento',
+                        fieldHintText: 'dd/MM/yyyy',
+                      )),
+                  Padding(
                     padding: const EdgeInsets.fromLTRB(15, 15, 15, 30),
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             fixedSize: Size(width, height),
                             primary: Styles.azulMenu),
-                        onPressed: () {},
+                        onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          final registerDTO = RegisterDTO(
+                              nickname: nicknameController.text,
+                              fullname: nameController.text,
+                              avatar: photoController.text,
+                              email: emailController.text,
+                              visibilidad: visibilityController.text,
+                              fechaNacimiento: dateController.text,
+                              password: passwordController.text);
+                          BlocProvider.of<RegisterBloc>(context)
+                              .add(DoRegisterEvent(registerDTO);
+                        }
+                      },
                         child: const Text('Registrarse',
                             style: TextStyle(fontSize: 17))),
                   ),
