@@ -359,7 +359,6 @@ class _SignInPageState extends State<SignInPage> {
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: Container(
-                      width: 310,
                       height: 60,
                       decoration: BoxDecoration(
                         color: Color(0xfff1f1f5),

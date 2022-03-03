@@ -16,3 +16,13 @@ class FetchPostsWithType extends PostEvent {
   @override
   List<Object> get props => [type];
 }
+
+class CreatePostsEvent extends PostEvent {
+  final CreatePostDTO createPostDTO;
+  final String path;
+
+  const CreatePostsEvent(this.createPostDTO, this.path);
+
+  @override
+  List<Object> get props => [createPostDTO];
+}

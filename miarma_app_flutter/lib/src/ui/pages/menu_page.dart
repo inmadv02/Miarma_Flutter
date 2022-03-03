@@ -83,9 +83,10 @@ class _MenuPageState extends State<MenuPage> {
                             : Colors.transparent,
                         width: 1)),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.network(
-                    PreferenceUtils.getString('avatar').toString(),
+                  borderRadius: BorderRadius.circular(120),
+                  child: Image.file(
+                    File(PreferenceUtils.getString('avatar').toString()),
+                    width: 30,
                     height: 30,
                   ),
                 ),

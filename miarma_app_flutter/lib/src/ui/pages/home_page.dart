@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'package:miarma_app_flutter/src/models/get-post-dto.dart';
-import 'package:miarma_app_flutter/src/posts/post_bloc.dart';
 import 'package:miarma_app_flutter/src/repository/constants.dart';
 import 'package:miarma_app_flutter/src/repository/posts_repository/post_repository.dart';
 import 'package:miarma_app_flutter/src/repository/posts_repository/posts_repository_impl.dart';
@@ -11,6 +9,8 @@ import 'package:miarma_app_flutter/src/repository/posts_repository/posts_reposit
 import '../../../widgets/error_page.dart';
 import '../../../widgets/home_app_bar.dart';
 import '../../../widgets/shimmer_horizontal_list.dart';
+import '../../blocs/posts/post_bloc.dart';
+import '../../models/posts/get_post_dto.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -194,7 +194,7 @@ class _HomePageState extends State<HomePage> {
                   text: TextSpan(
                       style: const TextStyle(
                           color: Colors.black, fontWeight: FontWeight.w700),
-                      text: postDTO.nickname,
+                      text: postDTO.titulo,
                       children: <TextSpan>[
                     TextSpan(
                         text: ' ' + postDTO.texto,

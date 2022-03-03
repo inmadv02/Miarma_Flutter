@@ -31,17 +31,7 @@ class RegisterRepositoryImpl extends RegisterRepository {
     });
 
     PreferenceUtils.setString('avatar', path);
-
-    final body2 = jsonEncode({
-      "nickname": "inma_dv",
-      "avatar": "",
-      "fullname": "M.ª Inmaculada Domínguez Vargas",
-      "fechaNacimiento": "2002-05-25",
-      "email": "inma.dvgs@gmail.com",
-      "password": "12334",
-      "password2": "12334",
-      "visibilidad": "PUBLIC"
-    });
+    PreferenceUtils.setString('nickname', registerDTO.nickname);
 
     final request = http.MultipartRequest('POST', uri)
       ..files.add(http.MultipartFile.fromString('nuevoUsuario', body,
@@ -57,7 +47,7 @@ class RegisterRepositoryImpl extends RegisterRepository {
     if (res.statusCode == 200) {
       return RegisterResponse.fromJson(json.decode(responded.body));
     } else {
-      throw Exception('Fail to login');
+      throw Exception('Fail to register');
     }
   }
 }

@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
           if (state is LoginSuccessState) {
             PreferenceUtils.setString(
                 Constants.token, state.loginResponse.token);
-            PreferenceUtils.setString('avatar', state.loginResponse.foto);
+
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const MenuPage()),

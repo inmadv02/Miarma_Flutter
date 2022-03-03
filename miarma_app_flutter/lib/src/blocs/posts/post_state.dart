@@ -27,3 +27,20 @@ class PublicPostsFetchError extends PostState {
   @override
   List<Object> get props => [message];
 }
+
+class PostCreated extends PostState {
+  final GetPostDTO response;
+
+  const PostCreated(this.response);
+
+  @override
+  List<Object> get props => [response];
+}
+
+class PostCreatedError extends PostState {
+  final String message;
+  const PostCreatedError(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
