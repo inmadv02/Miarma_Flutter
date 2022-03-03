@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,7 +10,7 @@ import 'package:miarma_app_flutter/src/repository/register_repository/register_r
 import 'package:miarma_app_flutter/src/ui/pages/login_page.dart';
 import 'package:miarma_app_flutter/styles.dart';
 import 'package:social_login_buttons/social_login_buttons.dart';
-import 'package:intl/intl.dart';
+
 import '../../blocs/image/bloc/image_bloc.dart';
 import '../../blocs/register/bloc/register_bloc.dart';
 
@@ -27,12 +28,12 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController nicknameController = TextEditingController();
   TextEditingController password2Controller = TextEditingController();
   TextEditingController emailController = TextEditingController();
-  late String birthDate;
+  late DateTime birthDate;
   TextEditingController photoController = TextEditingController();
   TextEditingController visibilityController = TextEditingController();
   late RegisterRepository registerRepository;
-  List<String> visibilidad = ['Público', 'Privado'];
-  String dropdownvalue = 'Público';
+  List<String> visibilidad = ['PUBLIC', 'PRIVATE'];
+  String dropdownvalue = 'PUBLIC';
   String filePath = ' ';
 
   @override
@@ -272,6 +273,7 @@ class _SignInPageState extends State<SignInPage> {
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: TextFormField(
+                      obscureText: true,
                       controller: passwordController,
                       decoration: InputDecoration(
                           labelText: 'Contraseña',
@@ -298,6 +300,7 @@ class _SignInPageState extends State<SignInPage> {
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: TextFormField(
+                      obscureText: true,
                       controller: password2Controller,
                       decoration: InputDecoration(
                           labelText: 'Confirmar contraseña',
@@ -354,19 +357,36 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                   ),
                   Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: InputDatePickerFormField(
-                        firstDate: DateTime(DateTime.now().year - 120),
+                    padding: const EdgeInsets.all(15.0),
+                    child: Container(
+                      width: 310,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: Color(0xfff1f1f5),
+                        borderRadius: BorderRadius.circular(14.0),
+                      ),
+                      child: DateTimeFormField(
+                        initialDate: DateTime(2001, 3, 2),
+                        firstDate: DateTime.utc(1922),
                         lastDate: DateTime.now(),
-                        onDateSubmitted: (date) {
-                          setState(() {
-                            var inputDate = DateFormat('yMd').format(date);
-                            birthDate = inputDate;
-                          });
+                        decoration: const InputDecoration(
+                          hintStyle: TextStyle(color: Colors.black45),
+                          errorStyle: TextStyle(color: Colors.redAccent),
+                          border: OutlineInputBorder(),
+                          suffixIcon: Icon(Icons.event_note),
+                          labelText: 'Fecha Nacimiento',
+                        ),
+                        mode: DateTimeFieldPickerMode.date,
+                        autovalidateMode: AutovalidateMode.always,
+                        validator: (e) => (e?.day ?? 0) == 1
+                            ? 'Please not the first day'
+                            : null,
+                        onDateSelected: (DateTime value) {
+                          birthDate = value;
                         },
-                        fieldLabelText: 'Fecha de nacimiento',
-                        fieldHintText: 'dd/MM/yyyy',
-                      )),
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(15, 15, 15, 30),
                     child: ElevatedButton(

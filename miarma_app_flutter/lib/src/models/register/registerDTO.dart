@@ -12,7 +12,7 @@ class RegisterDTO {
   late final String nickname;
   late final String avatar;
   late final String fullname;
-  late final String fechaNacimiento;
+  late final DateTime fechaNacimiento;
   late final String email;
   late final String password;
   late final String password2;

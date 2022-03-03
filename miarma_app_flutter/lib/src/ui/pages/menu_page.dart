@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:miarma_app_flutter/src/ui/pages/home_page.dart';
 import 'package:miarma_app_flutter/src/ui/pages/profile_page.dart';
 import 'package:miarma_app_flutter/src/ui/pages/search_page.dart';
+import 'package:miarma_app_flutter/utils/shared_preferences.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({Key? key}) : super(key: key);
@@ -81,8 +84,8 @@ class _MenuPageState extends State<MenuPage> {
                         width: 1)),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: Image.asset(
-                    'assets/images/avatar.png',
+                  child: Image.network(
+                    PreferenceUtils.getString('avatar').toString(),
                     height: 30,
                   ),
                 ),
